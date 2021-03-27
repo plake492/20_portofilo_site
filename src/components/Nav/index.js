@@ -22,7 +22,7 @@ const Nav = () => {
   return (
     <header className='ml-4'>
       <h2 style={{ display: 'inline-block' }}>
-        <a href='/'>
+        <a data-testid='link' href='/'>
           <span role='img' aria-label='camera'>
             {' '}
             📸
@@ -33,7 +33,9 @@ const Nav = () => {
       <nav style={{ display: 'inline-block' }}>
         <ul className='flex-row'>
           <li className='mx-2'>
-            <a href='#about'>About me</a>
+            <a data-testid='about' href='#about'>
+              About me
+            </a>
           </li>
           <li>
             <span>Contact</span>
