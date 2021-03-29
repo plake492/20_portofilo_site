@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { validateEmail } from '../../utils/helpers'
 
 const ContactForm = () => {
+  const [errorMessage, setErrorMessage] = useState('')
+
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -10,7 +13,25 @@ const ContactForm = () => {
   const { name, email, message } = formState
 
   const handleChange = ({ target }) => {
-    setFormState({ ...formState, [target.name]: target.value })
+    if (target.name === 'email') {
+      const isValid = validateEmail(target.value)
+      console.log(isValid)
+      if (!isValid) {
+        setErrorMessage('Your email is invalid.')
+      } else {
+        setErrorMessage('')
+      }
+    } else {
+      if (!target.value.length) {
+        setErrorMessage(`${target.name} is required.`)
+      } else {
+        setErrorMessage('')
+      }
+    }
+    console.log('errorMessage', errorMessage)
+    if (!errorMessage) {
+      setFormState({ ...formState, [target.name]: target.value })
+    }
   }
 
   const handleSubmit = e => {
@@ -18,19 +39,18 @@ const ContactForm = () => {
     console.log(formState)
   }
 
-  console.log(formState)
-
   return (
     <section>
       <h1>Contact me</h1>
       <form id='contact-form' onSubmit={handleSubmit}>
+
         <div>
           <label htmlFor='name'>Name:</label>
           <input
             type='text'
             name='name'
             defaultValue={name}
-            onChange={handleChange}
+            onBlur={handleChange}
           />
         </div>
         <div>
@@ -39,7 +59,7 @@ const ContactForm = () => {
             type='email'
             name='email'
             defaultValue={email}
-            onChange={handleChange}
+            onBlur={handleChange}
           />
         </div>
         <div>
@@ -48,9 +68,14 @@ const ContactForm = () => {
             name='message'
             rows='5'
             defaultValue={message}
-            onChange={handleChange}
+            onBlur={handleChange}
           />
         </div>
+        {errorMessage && (
+          <div>
+            <p className='error-text'>{errorMessage}</p>
+          </div>
+        )}
         <button type='submit'>Submit</button>
       </form>
     </section>

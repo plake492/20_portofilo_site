@@ -20,6 +20,8 @@ function App () {
     }
   ])
 
+  const [contactSelected, setContactSelected] = useState(false)
+
   const [currentCategory, setCurrentCategory] = useState(categories[0])
 
   useEffect(() => {
@@ -32,12 +34,19 @@ function App () {
         categories={categories}
         setCurrentCategory={setCurrentCategory}
         currentCategory={currentCategory}
+        contactSelected={contactSelected}
+        setContactSelected={setContactSelected}
       />
       <main>
         <div>
-          <ContactForm />
-          <Gallery currentCategory={currentCategory} />
-          <About />
+          {!contactSelected ? (
+            <>
+              <Gallery currentCategory={currentCategory} />
+              <About />
+            </>
+          ) : (
+            <ContactForm />
+          )}
         </div>
       </main>
     </div>
